@@ -11,9 +11,10 @@ This project implements an async-safe, overlap-aware code chunking pipeline usin
 - Unit tests with `pytest-asyncio`
 
 ## Project Structure
-src/ingest/clone_repo.py # clone repo
-src/ingest/file_loader.py # load files
-src/processing/chunker.py # Async chunk
+
+- src/ingest/clone_repo.py clone repo
+- src/ingest/file_loader.py load files
+- src/processing/chunker.py Async chunk
 
 ## Install dependencies
 pip install -r requirements.txt
