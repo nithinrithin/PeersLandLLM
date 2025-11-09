@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+
+# Virtual environments
+myenv/
+.env
+.env.*
+
+# IDEs
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+sakila/
+
+# Test artifacts
+.coverage
+htmlcov/
+.cache/
+.pytest_cache/
+
+# Tree-sitter build
+build/
