@@ -22,3 +22,7 @@ async def stream_json_output_async(results, output_path):
             if i < len(results) - 1:
                 await f.write(",\n")
         await f.write("\n]")
+
+async def stream_jsonline_output_async(result: dict, output_path: str):
+    async with aiofiles.open(output_path, "a") as f:  # append mode
+        await f.write(json.dumps(result) + "\n")

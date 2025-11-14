@@ -5,9 +5,20 @@ import asyncio
 def chunk_code(code_files: list):
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=CHUNK_SIZE,
-        chunk_overlap=CHUNK_OVERLAP
+        chunk_overlap=CHUNK_OVERLAP,
+        separators=["\n\n", "\n", " ", ""]
     )
-    return splitter.create_documents(code_files)
+    # return splitter.create_documents(code_files)
+    def chunk_file(file):
+        content = file["content"]
+        path = file["path"]
+        char_chunks = splitter.create_documents([content])
+        return [
+            {"path": path, "page_content": doc.page_content}
+            for doc in char_chunks
+        ]
+    all_chunks = [chunk_file(file) for file in code_files]
+    return [chunk for file_chunks in all_chunks for chunk in file_chunks]
 
 async def chunk_code_async(files, chunk_size=CHUNK_SIZE, chunk_overlap=CHUNK_OVERLAP):
     """

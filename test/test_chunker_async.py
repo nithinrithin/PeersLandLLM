@@ -30,15 +30,15 @@ async def test_multiple_files_chunking():
 @pytest.mark.asyncio
 async def test_overlap_behavior():
     files = [{
-        "path": "overlap.py",
-        "content": "x = 1\n" * 100  # ~600+ characters
+    "path": "overlap.py",
+    "content": "\n".join([f"line {i}" for i in range(100)])
     }]
     chunks = await chunk_code_async(files, chunk_size=100, chunk_overlap=50)
 
-    assert len(chunks) > 1
-    # Check that overlap is present
     first = chunks[0]["page_content"]
     second = chunks[1]["page_content"]
+
+    # Now this actually verifies overlap
     assert any(line in first for line in second.splitlines())
 
 @pytest.mark.asyncio

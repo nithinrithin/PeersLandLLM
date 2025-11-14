@@ -3,6 +3,7 @@ from src.utils.logger import setup_logger
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import StrOutputParser
 from .prompt_template import code_analysis_prompt
+from src.utils.utils import clean_llm_json
 
 logger = setup_logger()
 
@@ -31,15 +32,12 @@ async def analyze_chunks_async(chunks, api_key, llm_model, batch_size=5):
         try:
             batch_results = await asyncio.gather(*tasks)
             logger.info(f"Batch {i // batch_size + 1} completed")
-            for result, chunk in zip(batch_results, batch):
-                results.append({
-                    "path": chunk["path"],
-                    "analysis": result
-                })
+            for result in batch_results:
+                results.append(clean_llm_json(result))
         except Exception as e:
             logger.error(f"Batch failed: {e}")
             await asyncio.sleep(10)  # backoff
-    return results
+    return {"path": chunks[0]["path"], "analysis": results}
 
 def analyze_chunks(chunks: list, api_key: str) -> list:
     """

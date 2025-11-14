@@ -12,3 +12,8 @@ tiktoken
 gitpython
 pytest
 pytest-asyncio
+
+scikit-learn
+sentence-transformers
+huggingface_hub[hf_xet]
+hf_xet
